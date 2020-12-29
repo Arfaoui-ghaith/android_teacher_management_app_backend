@@ -5,7 +5,13 @@ const classeSchema = new mongoose.Schema({
         type: String,
         required: [true, 'A "classe" must have a name'],
         unique: true
-    }
+    },
+    students: [
+        {
+          type: mongoose.Schema.ObjectId,
+          ref: 'Student',
+        },
+      ]
 });
 
 const Classe = mongoose.model('Classe', classeSchema);

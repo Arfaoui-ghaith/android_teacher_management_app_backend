@@ -7,6 +7,12 @@ const authController = require('./../controllers/authController');
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 
+router.route('/teachers')
+    .get(userController.getAllTeachers);
+
+router.route('/teachers/:id')
+    .get(userController.getTeacher);
+
 router.route('/')
     .get(authController.protect, authController.restrictTo('admin') , userController.getAllUsers)
     .post(userController.createUser);

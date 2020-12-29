@@ -2,6 +2,39 @@ const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 
+
+exports.getAllTeachers = catchAsync(async (req, res, next) => {
+  const users = await User.find({role: 'teacher'});
+
+  if(!users){
+     return next(new AppError('No users found.', 404));
+  }
+
+  res.status(200).json({
+      status: 'success',
+      results: users.length,
+      data: {
+          users
+      }
+  });
+});
+
+exports.getTeacher = catchAsync(async (req, res, next) => {
+  const teacher = await User.findById(req.params.id).populate('classes');
+
+  if(!teacher){
+    return next(new AppError('No teacher with this ID.',404));
+ }
+ 
+ res.status(200).json({
+     status: 'success',
+     data: {
+         teacher
+     }
+ });
+});
+
+
 exports.getAllUsers = catchAsync(async (req, res, next) => {
     const users = await User.find();
 

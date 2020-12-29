@@ -22,7 +22,7 @@ exports.getAllClasses = catchAsync(async (req, res, next) => {
 
 exports.getClasse = catchAsync(async (req, res, next) => {
    
-        const classe = await Classe.findById(req.params.id);
+        const classe = await Classe.findById(req.params.id).populate('students');
 
         if(!classe){
            return next(new AppError('No class with this ID.',404));
@@ -40,10 +40,6 @@ exports.getClasse = catchAsync(async (req, res, next) => {
 exports.createClasse = catchAsync(async (req, res, next) => {
     
     const newClasse = await Classe.create(req.body);
-
-    if(!newClasse){
-        next(new AppError('No class with this ID.',404));
-    }
 
     res.status(201).json({
         status: 'success',

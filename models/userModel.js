@@ -6,7 +6,12 @@ const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Please tell us your name'],
-        validate: [validator.isAlpha, 'Please provide a valid name']
+    },
+    cin: {
+        type: String,
+        validate : [validator.isNumeric, '{VALUE} is not a cin'],
+        unique: [true, 'We found the same cin in our database. Please provide a different one!'],
+        required: [true, 'User must have a cin']
     },
     email: {
         type: String,
@@ -35,7 +40,19 @@ const userSchema = new mongoose.Schema({
             message: 'Passwords are not the same!'
         }
     },
-    passwordChangedAt: Date
+    passwordChangedAt: Date,
+    classes: [
+        {
+          type: mongoose.Schema.ObjectId,
+          ref: 'Classe',
+          validate: {
+              validator: function(el) {
+                  return this.role === 'teacher';
+              },
+              message: 'user must be a teacher first'
+          }
+        },
+      ]
 });
 
 userSchema.pre('save', async function(next){
