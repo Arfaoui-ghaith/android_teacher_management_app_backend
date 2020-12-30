@@ -17,9 +17,15 @@ const studentSchema = new mongoose.Schema({
         unique: [true, 'we found the same identity code in our database, Please provide a different one!']
     },
     classe: {
-          type: mongoose.Schema.ObjectId,
-          ref: 'Classe',
-    }
+        type: mongoose.Schema.ObjectId,
+        ref: 'Classe',
+    },
+    notes: [
+        {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Note',
+        }
+    ]
 
 });
 

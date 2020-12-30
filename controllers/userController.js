@@ -20,7 +20,7 @@ exports.getAllTeachers = catchAsync(async (req, res, next) => {
 });
 
 exports.getTeacher = catchAsync(async (req, res, next) => {
-  const teacher = await User.findById(req.params.id).populate('classes');
+  const teacher = await User.findById(req.params.id);
 
   if(!teacher){
     return next(new AppError('No teacher with this ID.',404));

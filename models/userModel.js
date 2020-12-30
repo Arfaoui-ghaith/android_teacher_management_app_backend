@@ -41,10 +41,10 @@ const userSchema = new mongoose.Schema({
         }
     },
     passwordChangedAt: Date,
-    classes: [
+    teachings: [
         {
           type: mongoose.Schema.ObjectId,
-          ref: 'Classe',
+          ref: 'Teaching',
           validate: {
               validator: function(el) {
                   return this.role === 'teacher';
