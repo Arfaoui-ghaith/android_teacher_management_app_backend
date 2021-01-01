@@ -39,19 +39,6 @@ exports.getClasse = catchAsync(async (req, res, next) => {
 
 exports.createClasse = catchAsync(async (req, res, next) => {
     
-    const newClasse = await Classe.create(req.body);
-
-    res.status(201).json({
-        status: 'success',
-        data: {
-            classe: newClasse
-        }
-    });
-    
-});
-
-exports.createClasse = catchAsync(async (req, res, next) => {
-    
     const newClasse = await Classe.create(req.body).catch(err => {
         return next(new AppError('Invalid class to create.',400));
     });
@@ -83,10 +70,10 @@ exports.updateClasse = catchAsync(async (req, res, next) => {
 
 exports.deleteClasse = catchAsync(async (req, res, next) => {
    
-        const classe = await Classe.findByIdAndDelete(req.params.id, req.body);
+        const classe = await Classe.findByIdAndDelete(req.params.id);
 
         if(!classe){
-            return next(new AppError('No class with this ID.',404));
+            return next(new AppError('No classe with this ID.',404));
         }
 
         res.status(204).json({

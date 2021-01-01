@@ -13,6 +13,9 @@ router.route('/teachers')
 router.route('/teachers/:id')
     .get(userController.getTeacher);
 
+router.route('/teachers/:id/lectures/today')
+    .get(userController.getTodayLectures);
+
 router.route('/')
     .get(authController.protect, authController.restrictTo('admin') , userController.getAllUsers)
     .post(userController.createUser);

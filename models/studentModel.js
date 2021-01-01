@@ -25,6 +25,12 @@ const studentSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'Note',
         }
+    ],
+    presences: [
+        {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Presence',
+        }
     ]
 
 });

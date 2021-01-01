@@ -16,9 +16,11 @@ const presenceSchema = new mongoose.Schema({
         type: String,
         enum: ['absent', 'present'],
         default: 'present'
+    },
+    date: { 
+        type: Date,
+        default: Date.now() 
     }
-  
-
 });
 
 const Presence = mongoose.model('Presence', presenceSchema);

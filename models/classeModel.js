@@ -11,6 +11,13 @@ const classeSchema = new mongoose.Schema({
           type: mongoose.Schema.ObjectId,
           ref: 'Student',
         },
+      ],
+    teachings: [
+        {
+          type: mongoose.Schema.ObjectId,
+          ref: 'Teaching',
+          unique: true
+        },
       ]
 });
 

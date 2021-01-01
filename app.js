@@ -8,6 +8,9 @@ const globalErrorHandler = require('./controllers/errorController.js');
 const classeRouter = require('./routes/classeRoutes');
 const userRouter = require('./routes/userRoutes');
 const studentRouter = require('./routes/studentRoutes');
+const courseRouter = require('./routes/courseRoutes');
+const teachingRouter = require('./routes/teachingRoutes');
+const lectureRouter = require('./routes/lectureRoutes');
 
 app.use(morgan('dev'));
 
@@ -18,6 +21,9 @@ app.use(express.json());
 app.use('/api/v1/classes', classeRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/students', studentRouter);
+app.use('/api/v1/courses', courseRouter);
+app.use('/api/v1/teachings', teachingRouter);
+app.use('/api/v1/lectures', lectureRouter);
 
 app.all('*', (req, res, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server.`,404))
