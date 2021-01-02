@@ -36,3 +36,20 @@ exports.createPresence = catchAsync(async (req, res, next) => {
     });
     
 });
+
+
+exports.updatePresence = catchAsync(async (req, res, next) => {
+    
+
+    const presence = await Presence.findByIdAndUpdate(req.params.id, req.body);
+
+    if(!presence){
+        return next(new AppError('No presence with this ID OR Invalid fields to update.',404));
+    }
+
+    res.status(201).json({
+        status: 'success'
+    });
+
+
+});

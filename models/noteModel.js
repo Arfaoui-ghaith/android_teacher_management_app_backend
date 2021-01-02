@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const noteSchema = new mongoose.Schema({
-    course: {
+    teaching: {
         type: mongoose.Schema.ObjectId,
-        ref: 'Course',
-        required: [true, 'A "note" must have a "Course"'],
+        ref: 'Teaching',
+        //required: [true, 'A "note" must have a "Teaching"'],
     },
     student: {
         type: mongoose.Schema.ObjectId,
@@ -12,24 +12,28 @@ const noteSchema = new mongoose.Schema({
         required: [true, 'A "note" must belong to a "Student"'],
     },
     tnp: {
-        type: Double,
-        min: 0,
-        max: 20
+        type: Number,
+        min: -1,
+        max: 20,
+        default: -1
     },
     ds: {
-        type: Double,
-        min: 0,
-        max: 20
+        type: Number,
+        min: -1,
+        max: 20,
+        default: -1
     },
     exam: {
-        type: Double,
-        min: 0,
-        max: 20
+        type: Number,
+        min: -1,
+        max: 20,
+        default: -1
     },
     tp: {
-        type: Double,
-        min: 0,
-        max: 20
+        type: Number,
+        min: -1,
+        max: 20,
+        default: -1
     }
       
 });

@@ -22,7 +22,13 @@ const teachingSchema = new mongoose.Schema({
             type: mongoose.Schema.ObjectId,
             ref: 'Lecture',
         }
-    ]
+    ],
+    notes: [
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: 'Note',
+        }
+    ],
 
 });
 

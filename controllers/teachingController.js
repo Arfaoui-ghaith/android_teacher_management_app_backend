@@ -2,14 +2,35 @@ const Teaching = require('./../models/teachingModel');
 const Course = require('./../models/courseModel');
 const User = require('./../models/userModel');
 const Classe = require('./../models/classeModel');
+const Note = require('./../models/noteModel');
+const Student = require('./../models/studentModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
+
 
 
 
 exports.getAllTeachings = catchAsync(async (req, res, next) => {
    
     const teachings = await Teaching.find().populate('lectures');
+
+    if(!teachings){
+       return next(new AppError('No teachings found.', 404));
+    }
+
+    res.status(200).json({
+        status: 'success',
+        results: teachings.length,
+        data: {
+            teachings
+        }
+    });
+
+});
+
+exports.getAllTeachingsByTeacher = catchAsync(async (req, res, next) => {
+   
+    const teachings = await Teaching.find({ teacher: req.params.id }).populate('classe');
 
     if(!teachings){
        return next(new AppError('No teachings found.', 404));
@@ -44,8 +65,6 @@ exports.getTeaching = catchAsync(async (req, res, next) => {
 
 exports.createTeaching = catchAsync(async (req, res, next) => {
 
-    console.log('im here');
-
     const course = await Course.findById(req.body.course);
     const classe = await Classe.findById(req.body.classe);
     const teacher = await User.findById(req.body.teacher);
@@ -76,6 +95,27 @@ exports.createTeaching = catchAsync(async (req, res, next) => {
 
     teacher.teachings.push(newTeaching._id);
     await teacher.save();
+
+    
+    const tab = new Array();  
+    const l = classe.students.length;
+    classe.students.map(async (el,index) => {
+        let note = await Note.create({ teaching: newTeaching._id, student: el });
+        
+        tab.push(note._id);
+       
+        newTeaching.notes.push(note._id);
+        
+        if(index === l-1)
+        {
+            
+            await newTeaching.save();
+        }
+        
+        let student = await Student.findById(el);
+        student.notes.push(note._id);
+        await student.save();
+    });
 
     res.status(201).json({
         status: 'success',

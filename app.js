@@ -11,6 +11,7 @@ const studentRouter = require('./routes/studentRoutes');
 const courseRouter = require('./routes/courseRoutes');
 const teachingRouter = require('./routes/teachingRoutes');
 const lectureRouter = require('./routes/lectureRoutes');
+const noteRouter = require('./routes/noteRoutes');
 
 app.use(morgan('dev'));
 
@@ -24,6 +25,7 @@ app.use('/api/v1/students', studentRouter);
 app.use('/api/v1/courses', courseRouter);
 app.use('/api/v1/teachings', teachingRouter);
 app.use('/api/v1/lectures', lectureRouter);
+app.use('/api/v1/notes', noteRouter);
 
 app.all('*', (req, res, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server.`,404))

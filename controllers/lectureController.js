@@ -48,6 +48,7 @@ exports.createLecture = catchAsync(async (req, res, next) => {
         s.presences.push(presence._id);
         await s.save();
 
+        console.log(presence);
         newLecture.presences.push(presence._id);
         await newLecture.save();
 

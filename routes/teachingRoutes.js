@@ -13,4 +13,7 @@ router.route('/:id')
     .patch(teachingController.updateTeaching)
     .delete(teachingController.deleteTeaching);
 
+router.route('/teacher/:id')
+    .get(teachingController.getAllTeachingsByTeacher);
+
 module.exports = router;
