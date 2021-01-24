@@ -14,9 +14,7 @@ exports.getAllCourses = catchAsync(async (req, res, next) => {
     res.status(200).json({
         status: 'success',
         results: courses.length,
-        data: {
-            courses
-        }
+        courses
     });
 
 });
@@ -31,9 +29,7 @@ exports.getCourse = catchAsync(async (req, res, next) => {
     
     res.status(200).json({
         status: 'success',
-        data: {
-            course
-        }
+        course
     });
    
 });
@@ -44,9 +40,7 @@ exports.createCourse= catchAsync(async (req, res) => {
 
     res.status(201).json({
         status: 'success',
-        data: {
-            classe: newCourse
-        }
+        classe: newCourse
     });
     
 });
@@ -78,7 +72,6 @@ exports.deleteCourse = catchAsync(async (req, res, next) => {
 
     res.status(204).json({
         status: 'success',
-        data: null
     });
 
 });

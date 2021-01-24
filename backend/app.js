@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-
+const cors = require('cors');
 const morgan = require('morgan');
 
 const AppError = require('./utils/appError');
@@ -15,6 +15,7 @@ const lectureRouter = require('./routes/lectureRoutes');
 const noteRouter = require('./routes/noteRoutes');
 const presenceRouter = require('./routes/presenceRoutes');
 
+app.use(cors());
 app.use(morgan('dev'));
 
 app.use(express.json());

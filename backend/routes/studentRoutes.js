@@ -9,9 +9,9 @@ router.route('/')
 
 
 router.route('/:id')
-    .get(studentController.getStudent);
-    //.patch(studentController.updateStudent)
-    //.delete(studentController.deleteStudent);
+    .get(studentController.getStudent)
+    .patch(studentController.updateStudent)
+    .delete(studentController.deleteStudent);
 
 router.route('/classe/:classe')
     .get(studentController.getAllStudentsByclasseName);

@@ -14,9 +14,7 @@ exports.getAllLecturePresences = catchAsync(async (req, res, next) => {
     res.status(200).json({
         status: 'success',
         results: presences.length,
-        data: {
-            presences
-        }
+        presences
     });
 
 });
@@ -29,9 +27,7 @@ exports.createPresence = catchAsync(async (req, res, next) => {
 
     res.status(201).json({
         status: 'success',
-        data: {
-            classe: newPresence
-        }
+        presence: newPresence
     });
     
 });
@@ -46,9 +42,7 @@ exports.getPresence = catchAsync(async (req, res, next) => {
 
     res.status(200).json({
         status: 'success',
-        data: {
-            presence
-        }
+        presence
     });
 
 });
@@ -74,13 +68,21 @@ exports.updatePresence = catchAsync(async (req, res, next) => {
     }
 
     let date = presenceLecture.lecture.date;
-    let startDate = date.addHours(1);
+    let startDate = date;
     let dateContainer = new Date(startDate.toString());
     let endDate = dateContainer.addMinutes(presenceLecture.lecture.duration);
     let dateNow = new Date().addHours(1);
 
+    console.log(presenceLecture);
+    console.log('---------------------------');
+    console.log('lecture id: '+presenceLecture.lecture._id);
+    console.log("startDate: "+presenceLecture.lecture.date);
+    console.log("endtDate: "+endDate);
+    console.log("dateNow: "+dateNow);
+    
+    
     if( !(startDate <= dateNow && dateNow <= endDate) ){
-        return next(new AppError('Your out of the time needed to this action.',400));
+        return next(new AppError('Your out of the time needed to this action. your date now : '+dateNow,400));
     }
     
     const presence = await Presence.findByIdAndUpdate(req.params.id, req.body);

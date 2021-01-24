@@ -23,9 +23,7 @@ exports.getAllClassesByTeacher = catchAsync(async (req, res, next) => {
     res.status(200).json({
         status: 'success',
         results: classes.length,
-        data: {
-            classes: [...classes]
-        }
+        classes: [...classes]
     });
 });
 
@@ -48,9 +46,7 @@ exports.getAllCoursesByTeacher = catchAsync(async (req, res, next) => {
     res.status(200).json({
         status: 'success',
         results: courses.length,
-        data: {
-            courses: [...courses]
-        }
+        courses: [...courses]
     });
 
 });
@@ -58,7 +54,7 @@ exports.getAllCoursesByTeacher = catchAsync(async (req, res, next) => {
 
 exports.getAllClasses = catchAsync(async (req, res, next) => {
    
-        const classes = await Classe.find();
+        const classes = await Classe.find().populate('students');
 
         if(!classes){
            return next(new AppError('No classes found.', 404));
@@ -67,9 +63,7 @@ exports.getAllClasses = catchAsync(async (req, res, next) => {
         res.status(200).json({
             status: 'success',
             results: classes.length,
-            data: {
-                classes
-            }
+            classes
         });
 
 });
@@ -84,9 +78,7 @@ exports.getClasse = catchAsync(async (req, res, next) => {
         
         res.status(200).json({
             status: 'success',
-            data: {
-                classe
-            }
+            classe
         });
        
 });
@@ -99,9 +91,7 @@ exports.createClasse = catchAsync(async (req, res, next) => {
 
     res.status(201).json({
         status: 'success',
-        data: {
-            classe: newClasse
-        }
+        classe: newClasse
     });
     
 });
@@ -132,7 +122,6 @@ exports.deleteClasse = catchAsync(async (req, res, next) => {
 
         res.status(204).json({
             status: 'success',
-            data: null
         });
 
 });

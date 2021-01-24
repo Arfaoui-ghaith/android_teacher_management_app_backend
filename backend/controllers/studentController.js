@@ -37,9 +37,7 @@ exports.getStudentNoteByCourse = catchAsync(async (req, res, next) => {
 
     res.status(200).json({
         status: 'success',
-        data: {
-            note
-        }
+        note
     });
 
 });
@@ -54,9 +52,7 @@ exports.getAllStudentsByclasseName = catchAsync(async (req, res, next) => {
 
     res.status(200).json({
         status: 'success',
-        data: {
-            students: classe.students
-        }
+        students: classe.students
     });
 })
 
@@ -77,9 +73,7 @@ exports.createStudent = catchAsync(async (req, res, next) => {
 
     res.status(201).json({
         status: 'success',
-        data: {
-            student: newStudent
-        }
+        student: newStudent
     });
   });
 
@@ -92,9 +86,37 @@ exports.getStudent = catchAsync(async (req, res, next) => {
    }
    
    res.status(200).json({
-       status: 'success',
-       data: {
-            student
-       }
+        status: 'success',
+        student
    });
   });
+
+  exports.updateStudent = catchAsync(async (req, res, next) => {
+    
+
+    const student = await Student.findByIdAndUpdate(req.params.id, req.body);
+
+    if(!student){
+        return next(new AppError('No Student with this ID OR Invalid fields to update.',404));
+    }
+
+    res.status(201).json({
+        status: 'success'
+    });
+
+
+});
+
+exports.deleteStudent = catchAsync(async (req, res, next) => {
+
+    const student = await Student.findByIdAndDelete(req.params.id);
+
+    if(!student){
+        return next(new AppError('No classe with this ID.',404));
+    }
+
+    res.status(204).json({
+        status: 'success',
+    });
+
+});

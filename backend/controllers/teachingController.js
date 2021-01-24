@@ -12,7 +12,7 @@ const AppError = require('./../utils/appError');
 
 exports.getAllTeachings = catchAsync(async (req, res, next) => {
    
-    const teachings = await Teaching.find().populate('lectures');
+    const teachings = await Teaching.find().populate('lectures').populate("teacher").populate("course").populate("classe");
 
     if(!teachings){
        return next(new AppError('No teachings found.', 404));
@@ -21,9 +21,7 @@ exports.getAllTeachings = catchAsync(async (req, res, next) => {
     res.status(200).json({
         status: 'success',
         results: teachings.length,
-        data: {
-            teachings
-        }
+        teachings
     });
 
 });
@@ -41,9 +39,7 @@ exports.getAllTeachingsByTeacher = catchAsync(async (req, res, next) => {
     res.status(200).json({
         status: 'success',
         results: teachings.length,
-        data: {
-            teachings
-        }
+        teachings
     });
 
 });
@@ -58,9 +54,7 @@ exports.getTeaching = catchAsync(async (req, res, next) => {
     
     res.status(200).json({
         status: 'success',
-        data: {
-            teaching
-        }
+        teaching
     });
    
 });
@@ -99,31 +93,39 @@ exports.createTeaching = catchAsync(async (req, res, next) => {
     await teacher.save();
 
     
-    const tab = new Array();  
+    
     const l = classe.students.length;
-    classe.students.map(async (el,index) => {
-        let note = await Note.create({ teaching: newTeaching._id, student: el });
+
+    classe.students.map(async (el) => {
+        const note = await Note.create({ teaching: newTeaching._id, student: el._id });
         
-        tab.push(note._id);
-       
-        newTeaching.notes.push(note._id);
-        
-        if(index === l-1)
-        {
-            
-            await newTeaching.save();
-        }
-        
-        let student = await Student.findById(el);
+
+        const student = await Student.findById(el._id);
         student.notes.push(note._id);
         await student.save();
+        
+       try{
+        newTeaching.notes.push(note._id);
+       }catch(err){
+        console.log(err.message);
+       }
+        
+        if(newTeaching.notes.length === l)
+        {
+            try{
+                await newTeaching.save();
+            }catch(err){
+                console.log(err.message);
+            }
+            
+        }
+        
+        
     });
 
     res.status(201).json({
         status: 'success',
-        data: {
-            classe: newTeaching
-        }
+        teaching: newTeaching
     });
     
 });
@@ -154,7 +156,6 @@ exports.deleteTeaching = catchAsync(async (req, res, next) => {
 
     res.status(204).json({
         status: 'success',
-        data: null
     });
 
 });
